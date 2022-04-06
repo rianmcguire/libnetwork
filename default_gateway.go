@@ -201,6 +201,16 @@ func (sb *sandbox) getGatewayEndpoint() *endpoint {
 		if len(ep.Gateway()) != 0 {
 			return ep
 		}
+		for _, r := range ep.StaticRoutes() {
+			if r.Destination != nil && r.Destination.String() == "0.0.0.0/0" {
+				return ep
+			}
+		}
+		for _, r := range ep.iface.routes {
+			if r.String() == "0.0.0.0/0" {
+				return ep
+			}
+		}
 	}
 	return nil
 }
