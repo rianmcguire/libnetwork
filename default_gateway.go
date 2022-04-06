@@ -140,6 +140,11 @@ func (sb *sandbox) needDefaultGW() bool {
 				return false
 			}
 		}
+		for _, r := range ep.iface.routes {
+			if r.String() == "0.0.0.0/0" {
+				return false
+			}
+		}
 		needGW = true
 	}
 
